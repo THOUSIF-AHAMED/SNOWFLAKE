@@ -1,0 +1,40 @@
+# dbt_project.yml
+name: "HRMS"
+version: "1.0.0"
+config-version: 2
+profile: "HRMS"
+
+on-run-start:
+  - "{{ log_run_start() }}"
+on-run-end:
+  - "{{ log_run_end(results) }}"
+
+# Consolidated and clean variables block
+vars:
+  audit_db: "HRMS"
+  audit_database: "HRMS"
+  audit_schema: "LABS"
+  audit_table: "DBT_MODEL_AUDIT"
+  audit_run_start_table: "DBT_RUN_AUDIT"
+  audit_result_table: "DBT_RESULT_AUDIT"
+  
+model-paths:
+  - "models"
+analysis-paths:
+  - "analyses"
+test-paths:
+  - "tests"
+seed-paths:
+  - "seeds"
+macro-paths:
+  - "macros"
+snapshot-paths:
+  - "snapshots"
+
+models:
+  HRMS:
+    +materialized: "view"
+
+flags:
+  send_anonymous_usage_stats: false
+  enable_iceberg_materializations: true
